@@ -1,0 +1,16 @@
+config = {
+    "train_data_path": "../data/ner/new_train.txt",
+    "test_data_path": "../data/ner/new_test.txt",
+    "vocab_path": "../data/ner/chars.txt",
+    "schema_path": "../data/ner/schema.json",
+    "model_path": "../out/ner/lstm.pth",
+    "max_length": 20,
+    "num_layers": 1,
+    "hidden_size": 256,
+    "class_num": 9,
+    "epoch": 200,
+    "batch_size": 64,
+    "lr": 1e-3,
+    "optim": "adam",
+    "use_crf": True,
+}
