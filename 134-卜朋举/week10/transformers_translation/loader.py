@@ -30,7 +30,7 @@ class TranslationDataset(Dataset):
 
 
 def padding(words, max_length, pad_idx, sos_idx, eos_idx):
-    words = words[:max_length-2]
+    words = words[:max_length+2]
     words = [sos_idx] + words + [eos_idx]
     pad_length = max_length - len(words)
     words = words + [pad_idx] * pad_length
@@ -41,10 +41,12 @@ def load_data(data_path, src_vocab, trg_vocab, max_length, batch_size, shuffle=T
     def collate_fn(batch):
         src_batch, trg_batch = [], []
         for src_item, trg_item in batch:
-            src_batch.append(src_vocab.get(src_item, src_vocab["<unk>"]))
-            trg_batch.append(trg_vocab.get(trg_item, trg_vocab["<unk>"]))
-        src_batch = padding(src_batch, max_length, src_vocab["<pad>"], src_vocab["<sos>"], src_vocab["<eos>"])
-        trg_batch = padding(trg_batch, max_length, trg_vocab["<pad>"], trg_vocab["<sos>"], trg_vocab["<eos>"])
+            src_item = [src_vocab.get(item, src_vocab["<unk>"]) for item in src_item.strip().split(" ")]
+            src_item = padding(src_item, max_length, src_vocab["<pad>"], src_vocab["<sos>"], src_vocab["<eos>"])
+            trg_item = [trg_vocab.get(item, trg_vocab["<unk>"]) for item in trg_item.strip().split(" ")]
+            trg_item = padding(trg_item, max_length, trg_vocab["<pad>"], trg_vocab["<sos>"], trg_vocab["<eos>"])
+            src_batch.append(src_item)
+            trg_batch.append(trg_item)
         src_batch, trg_batch = torch.LongTensor(src_batch), torch.LongTensor(trg_batch)
         return src_batch, trg_batch
     

@@ -39,8 +39,6 @@ def train():
     for epoch in range(config["num_epochs"]):
         model.train()
         for idx, (src, trg) in enumerate(train_data):
-            # src = src.transpose(0, 1)
-            # trg = trg.transpose(0, 1)
             print(src.shape, trg.shape)
             src_mask, trg_mask, src_padding_mask, trg_padding_mask = create_masks(src, trg)
             preds = model(src, trg[:, :-1], src_mask, trg_mask[:, :-1], src_padding_mask, trg_padding_mask[:, :-1], src_padding_mask)

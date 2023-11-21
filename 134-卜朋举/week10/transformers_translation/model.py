@@ -12,8 +12,8 @@ def generate_square_subsequent_mask(sz, device=torch.device('cpu')):
 
 
 def create_masks(src, trg, device=torch.device('cpu')):
-    src_seq_len = src.shape[0]
-    trg_seq_len = trg.shape[0]
+    src_seq_len = src.shape[1]
+    trg_seq_len = trg.shape[1]
     src_mask = torch.zeros((src_seq_len, src_seq_len), device=device).type(torch.bool)
     trg_mask = torch.zeros((trg_seq_len, trg_seq_len), device=device).type(torch.bool)
     src_padding_mask = (src == 0)  # .transpose(0, 1)
@@ -50,6 +50,7 @@ class Seq2SeqTransformer(nn.Module):
         self.src_tok_emb = nn.Embedding(src_vocab_size, emb_size)
         self.tgt_tok_emb = nn.Embedding(tgt_vocab_size, emb_size)
         self.positional_encoding = PositionalEncoding(emb_size, dropout=dropout)
+        self.emb_size = emb_size
 
     def forward(self, src, trg, src_mask, tgt_mask, src_padding_mask, tgt_padding_mask, memory_key_padding_mask):
         src_emb = self.positional_encoding(self.src_tok_emb(src) * math.sqrt(self.emb_size))
