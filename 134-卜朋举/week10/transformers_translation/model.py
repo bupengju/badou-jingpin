@@ -15,7 +15,7 @@ def create_masks(src, trg, device=torch.device('cpu')):
     src_seq_len = src.shape[1]
     trg_seq_len = trg.shape[1]
     src_mask = torch.zeros((src_seq_len, src_seq_len), device=device).type(torch.bool)
-    trg_mask = torch.zeros((trg_seq_len, trg_seq_len), device=device).type(torch.bool)
+    trg_mask = generate_square_subsequent_mask(trg_seq_len, device=device).type(torch.bool)
     src_padding_mask = (src == 0)  # .transpose(0, 1)
     trg_padding_mask = (trg == 0)  # .transpose(0, 1)
     return src_mask, trg_mask, src_padding_mask, trg_padding_mask

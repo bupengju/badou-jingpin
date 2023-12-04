@@ -5,7 +5,7 @@ config = {
     "model_path": "out/transformer4translation.pth",
     "max_length": 50,
     "batch_size": 32,
-    "num_epochs": 10,
+    "num_epochs": 2,
     "lr": 1e-3,
     "num_layers": 1,
     "dropout": 0.1,
